@@ -8,7 +8,7 @@ Python library for implementing MAX bots using **long polling**.
 ## Installation
 Download the `.whl` file from the latest release and install it:
 ```bash
-pip install yamaxa-latest.whl
+pip install yamaxa-X.X.X-py3-none-any.whl
 ```
 
 ## Documentation (WIP)

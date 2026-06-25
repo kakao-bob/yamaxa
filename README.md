@@ -8,7 +8,7 @@ Python библиотека для реализации МАКС-ботов, и�
 ## Установка
 Скачайте `.whl`-файл из последнего релиза и установите:
 ```bash
-pip install yamaxa-latest.whl
+pip install yamaxa-X.X.X-py3-none-any.whl
 ```
 
 ## Документация (WIP)
