@@ -1,6 +1,6 @@
 import asyncio
 import httpx
-from .misc import *
+from misc import *
 
 class MaxBot:
     def __init__(self, token: str):
