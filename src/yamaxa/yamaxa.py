@@ -20,13 +20,14 @@ def check_cert_expiry():
     if 0 < days_left <= 30:
         print(
             f"\n[WARNING] Built-in SSL certificate validity period "
-            f"ends in {days_left} дн. Update <yamaxa> via pip!\n"
+            f"ends in {days_left} days. Update <yamaxa> via pip!\n"
         )
     elif days_left <= 0:
         print(
             f"\n[ERROR] The built-in SSL certificate has EXPIRED! "
             f"Requests to API may fail. Update <yamaxa> via pip!\n"
         )
+    
 
 check_cert_expiry()
 
