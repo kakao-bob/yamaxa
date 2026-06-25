@@ -16,7 +16,19 @@ async def handle_msg(umsg: UMessage):
     msg = umsg.message
     txt = msg.body.text
 
-    await bot.send_message(chat_id=msg.sender.user_id, text=f"Вы написали: '{txt}'!")
+    if txt == '/start':
+        btns = [
+            [
+                Button(type="callback", text="КНОПКА 1️⃣", payload="button1"), 
+                Button(type="callback", text="КНОПКА 2️⃣", payload="button2")
+            ]
+        ]
+        att1 = Attachment(type="inline_keyboard", payload={"buttons": btns})
+        await bot.send_message(chat_id=msg.recipient.chat_id, 
+                               text=f"ℹ️ Добро пожаловать! Inline-клавиатура:", attachments=[att1])
+
+    else:
+        await bot.send_message(chat_id=msg.recipient.chat_id, text=f"Вы написали: '{txt}'!")
 
 
 @bot.on_callback()
@@ -25,7 +37,7 @@ async def handle_cback(ucb: UCallback):
     payload = ucb.callback.payload # payload кнопки
     user = ucb.callback.user # пользователь, что нажал кнопку
 
-    await bot.send_message(chat_id=user.user_id, text=f"Нажата кнопка: {payload}")
+    await bot.send_message(user_id=user.user_id, text=f"Нажата кнопка: {payload}")
     
 
 def start():
