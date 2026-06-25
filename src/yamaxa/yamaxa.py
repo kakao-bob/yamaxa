@@ -83,7 +83,7 @@ class MaxBot:
         # 2. Используем контекстный менеджер для управления сессией
         async with httpx.AsyncClient(verify=ssl_context) as client:
             response = await client.post(
-                "https://platform-api.max.ru/messages", 
+                "https://platform-api2.max.ru/messages", 
                 headers=headers, 
                 params=params, 
                 json=json_data
