@@ -7,3 +7,6 @@ pyvenv.cfg
 
 # cache
 __pycache__
+
+# wheel build
+dist
