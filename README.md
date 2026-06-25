@@ -1,19 +1,22 @@
-<h4 align="center"><a href="/README.md">English</a> | <a href="/READMEru.md">Русский</a></h4>
+<h4 align="center"><a href="/README.md">Русский</a> | <a href="/READMEen.md">English</a></h4>
 
 # YaMAXa
 ## Yet Another MAX API
 
-Python library for implementing MAX bots using **long polling**.
+Python библиотека для реализации МАКС-ботов, использующая **long-polling**.
 
-## Installation
-Download the `.whl` file from the latest release and install it:
+## Установка
+Скачайте `.whl`-файл из последнего релиза и установите:
 ```bash
 pip install yamaxa-latest.whl
 ```
 
-## Documentation (WIP)
-Most of the API has been mirrored from the [official documentation](https://dev.max.ru/docs-api).
-The basics of working with the bot are covered in [`example.py`](/example.py).
+## Документация (WIP)
+Большая часть API была скопирована с [официальной документации](https://dev.max.ru/docs-api).
+Основы работы с ботом описаны в [`example.py`](/example.py)
 
-## License
-This repository is licensed under the ISC License. Read more: [LICENSE](/LICENSE)
+> [!WARNING]
+> С 19 июля 2026 года разработчики MAX обязуют использовать сертификаты Минцифры во избежание ошибок SSL из-за переноса на новый домен. Объединённый корневой и выпускающий [сертификат](https://www.gosuslugi.ru/crt) уже встроен в `yamaxa` (`certs/russian_chain.pem`) и дополнительных настроек не требует. До его истечения (**6 марта 2027**) будет выпущен патч библиотеки, продлевающий его действие.
+
+## Лицензия
+Этот репозиторий покрывается лицензией ISC. Прочитать: [LICENSE](/LICENSE)
