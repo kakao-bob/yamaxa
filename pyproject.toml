@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yamaxa"
+version = "0.1.0"
+description = "Yet another MAX Bots library."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "kakao.bob", email = "kakao.bob@icloud.com" }
+]
+license = { text = "ISC" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: ISC License (ISCL)",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "httpx>=0.24.0",
+    "pydantic>=2.0",
+]
