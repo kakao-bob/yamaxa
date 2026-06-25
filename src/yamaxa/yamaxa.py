@@ -1,10 +1,39 @@
 import asyncio
 import httpx
+from datetime import datetime, timezone
+import os
+import ssl
 from .misc import *
+
+
+BASE_DIR = os.path.dirname(__file__)
+CERT_PATH = os.path.join(BASE_DIR, "certs", "russian_chain.pem")
+
+ssl_context = ssl.create_default_context()
+ssl_context.load_verify_locations(cafile=CERT_PATH)
+
+def check_cert_expiry():
+    expiry_date = datetime(2027, 3, 6, tzinfo=timezone.utc)
+    now = datetime.now(timezone.utc)
+    days_left = (expiry_date - now).days
+    
+    if 0 < days_left <= 30:
+        print(
+            f"\n[WARNING] Built-in SSL certificate validity period "
+            f"ends in {days_left} дн. Update <yamaxa> via pip!\n"
+        )
+    elif days_left <= 0:
+        print(
+            f"\n[ERROR] The built-in SSL certificate has EXPIRED! "
+            f"Requests to API may fail. Update <yamaxa> via pip!\n"
+        )
+
+check_cert_expiry()
+
 
 class MaxBot:
     def __init__(self, token: str):
-        self.api_url = "https://platform-api.max.ru/updates"
+        self.api_url = "https://platform-api2.max.ru/updates"
         self.token = token
         self.marker = None
 
@@ -51,7 +80,7 @@ class MaxBot:
         print(f"Sending with data: {json_data}")
 
         # 2. Используем контекстный менеджер для управления сессией
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=ssl_context) as client:
             response = await client.post(
                 "https://platform-api.max.ru/messages", 
                 headers=headers, 
@@ -68,7 +97,7 @@ class MaxBot:
         print("[MB] Bot started...")
         
         # Используем один клиент для удержания HTTP-сессии
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=ssl_context) as client:
             while True:
                 try:
                     # Формируем параметры запроса
