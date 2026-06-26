@@ -8,10 +8,11 @@ from .crtmngr import *
 
 
 class MaxBot:
-    def __init__(self, token: str, auto_download_cert=False, cert_download_url="default"):
+    def __init__(self, token: str, auto_download_cert=False, cert_download_url="default", log=False):
         self.api_url = "https://platform-api2.max.ru/updates"
         self.token = token
         self.marker = None
+        self.log = log
 
         # handlers
         self._H_Update = []
@@ -55,7 +56,7 @@ class MaxBot:
             "link": None
         }
 
-        print(f"Sending with data: {json_data}")
+        if self.log: print(f"Sending with data: {json_data}")
 
         # 2. Используем контекстный менеджер для управления сессией
         async with httpx.AsyncClient(verify=self.ssl_context) as client:
@@ -67,8 +68,8 @@ class MaxBot:
             )
             
             # 3. Обрабатываем ответ
-            print("Статус-код:", response.status_code)
-            print("Ответ сервера (JSON):", response.json())
+            if self.log: print("Статус-код:", response.status_code)
+            if self.log: print("Ответ сервера (JSON):", response.json())
 
     # Главный асинхронный цикл Long Polling
     async def start_polling(self, timeout: int = 30):
