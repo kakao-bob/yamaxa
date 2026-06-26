@@ -1,7 +1,8 @@
 from yamaxa import *
 
 
-bot = MaxBot("my-super-secret-token-from-platform") # сюда токен
+bot = MaxBot("my-super-secret-token-from-platform", # сюда токен
+             auto_download_cert = True) 
 
 
 @bot.on_update()
