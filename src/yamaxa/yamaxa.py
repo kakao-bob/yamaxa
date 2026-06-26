@@ -73,7 +73,7 @@ class MaxBot:
 
     # Главный асинхронный цикл Long Polling
     async def start_polling(self, timeout: int = 30):
-        print("[MB] Bot started...")
+        print("[yamaxa] Bot started...")
         
         # Используем один клиент для удержания HTTP-сессии
         async with httpx.AsyncClient(verify=self.ssl_context) as client:
