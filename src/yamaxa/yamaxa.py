@@ -4,36 +4,11 @@ from datetime import datetime, timezone
 import os
 import ssl
 from .misc import *
-
-
-BASE_DIR = os.path.dirname(__file__)
-CERT_PATH = os.path.join(BASE_DIR, "certs", "russian_chain.pem")
-
-ssl_context = ssl.create_default_context()
-ssl_context.load_verify_locations(cafile=CERT_PATH)
-
-def check_cert_expiry():
-    expiry_date = datetime(2027, 3, 6, tzinfo=timezone.utc)
-    now = datetime.now(timezone.utc)
-    days_left = (expiry_date - now).days
-    
-    if 0 < days_left <= 30:
-        print(
-            f"\n[WARNING] Built-in SSL certificate validity period "
-            f"ends in {days_left} days. Update <yamaxa> via pip!\n"
-        )
-    elif days_left <= 0:
-        print(
-            f"\n[ERROR] The built-in SSL certificate has EXPIRED! "
-            f"Requests to API may fail. Update <yamaxa> via pip!\n"
-        )
-    
-
-check_cert_expiry()
+from .crtmngr import *
 
 
 class MaxBot:
-    def __init__(self, token: str):
+    def __init__(self, token: str, auto_download_cert=False, cert_download_url="default"):
         self.api_url = "https://platform-api2.max.ru/updates"
         self.token = token
         self.marker = None
@@ -42,6 +17,8 @@ class MaxBot:
         self._H_Update = []
         self._H_Message = []
         self._H_Callback = []
+
+        self.ssl_context = get_ssl_context(auto_download_cert, cert_download_url)
 
     # Декораторы для регистрации функций-обработчиков (как @dp.message в aiogram)
     def on_update(self):
@@ -81,7 +58,7 @@ class MaxBot:
         print(f"Sending with data: {json_data}")
 
         # 2. Используем контекстный менеджер для управления сессией
-        async with httpx.AsyncClient(verify=ssl_context) as client:
+        async with httpx.AsyncClient(verify=self.ssl_context) as client:
             response = await client.post(
                 "https://platform-api2.max.ru/messages", 
                 headers=headers, 
@@ -98,7 +75,7 @@ class MaxBot:
         print("[MB] Bot started...")
         
         # Используем один клиент для удержания HTTP-сессии
-        async with httpx.AsyncClient(verify=ssl_context) as client:
+        async with httpx.AsyncClient(verify=self.ssl_context) as client:
             while True:
                 try:
                     # Формируем параметры запроса
