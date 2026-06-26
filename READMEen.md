@@ -18,6 +18,9 @@ The basics of working with the bot are covered in [`example.py`](/example.py).
 > [!WARNING]
 > Starting July 19, 2026, MAX developers mandate the use of Ministry of Digital Development (Mincifry) certificates to avoid SSL errors due to migration to a new domain. The combined root and intermediate [certificate](https://www.gosuslugi.ru/crt) is already built into `yamaxa` (`certs/russian_chain.pem`) and requires no additional configuration. A library patch extending its validity will be released before it expires (**March 6, 2027**).
 
+> [!TIP]
+> It is recommended to enable `auto_download_cert = True` (as shown in the [example](/example.py)) to avoid updating the library every time. In this case, the updated certificate will be automatically downloaded from this repository upon bot restart.
+
 
 ## License
 This repository is licensed under the ISC License. Read more: [LICENSE](/LICENSE)
