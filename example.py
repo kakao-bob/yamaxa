@@ -1,4 +1,4 @@
-from src.yamaxa.yamaxa import *
+from yamaxa import *
 
 
 bot = MaxBot("my-super-secret-token-from-platform", # сюда токен
