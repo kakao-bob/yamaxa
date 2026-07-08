@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(__file__)
 CERT_PATH = os.path.join(BASE_DIR, "certs", "russian_chain.pem")
 
 
-def is_cert_bundle_safe(file_path: str = CERT_PATH) -> bool:
+def is_cert_bundle_safe(file_path: str) -> bool:
     if not os.path.exists(file_path):
         print(f"[ERROR] Certificate file not found at: {file_path}")
         return False
@@ -51,14 +51,15 @@ def download_file(url: str, output_path: str):
                 for chunk in response.iter_bytes(chunk_size=8192):
                     f.write(chunk)
 
-def get_ssl_context(download: bool, url: str):
+def get_ssl_context(download: bool, url: str, path: str):
     url = "https://raw.githubusercontent.com/kakao-bob/yamaxa/master/src/yamaxa/certs/russian_chain.pem" if url == 'default' else url
+    path = CERT_PATH if path == 'default' else path
 
-    safe = is_cert_bundle_safe()
+    safe = is_cert_bundle_safe(path)
     if not safe:
         if download:
             print("[*] Downloading certs. Please wait... ", end='')
-            download_file(url, CERT_PATH)
+            download_file(url, path)
             print("ok")
         else:
             print("└  Auto certificate download is disabled right now. Enable it in bot settings, or update <yamaxa> manually.")
@@ -66,5 +67,5 @@ def get_ssl_context(download: bool, url: str):
         print("\n")
 
     ssl_context = ssl.create_default_context()
-    ssl_context.load_verify_locations(cafile=CERT_PATH)
+    ssl_context.load_verify_locations(cafile=path)
     return ssl_context

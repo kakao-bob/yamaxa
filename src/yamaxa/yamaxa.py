@@ -8,14 +8,15 @@ from .crtmngr import *
 
 
 class MaxBot:
-    def __init__(self, token: str, auto_download_cert=False, cert_download_url="default", log=False):
+    def __init__(self, token: str, auto_download_cert=False, cert_download_url="default", cert_store_path="default", log=False):
         """
         Main object of your bot.
 
         Args:
             token (str): token from MAX Platform
             auto_download_cert (bool, optional): download Certificate automatically?
-            cert_download_url (str, optional): URL for auto-download-cert, by default its github repo.
+            cert_download_url (str, optional): custom URL for auto-download-cert, by default its github repo.
+            cert_store_path (str, optional): custom path to .pem certificate
             log (bool, optional): show logs?
         """
         self.api_url = "https://platform-api2.max.ru/updates"
@@ -28,7 +29,7 @@ class MaxBot:
         self._H_Message = []
         self._H_Callback = []
 
-        self.ssl_context = get_ssl_context(auto_download_cert, cert_download_url)
+        self.ssl_context = get_ssl_context(auto_download_cert, cert_download_url, cert_store_path)
 
     # Декораторы для регистрации функций-обработчиков (как @dp.message в aiogram)
     def on_update(self):
