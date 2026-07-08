@@ -17,8 +17,12 @@ classifiers = [
     "License :: OSI Approved :: ISC License (ISCL)",
     "Operating System :: OS Independent",
 ]
-
 dependencies = [
     "httpx>=0.24.0",
     "pydantic>=2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/kakao-bob/yamaxa"
+Documentation = "https://github.com/kakao-bob/yamaxa#readme"
+Issues = "https://github.com/kakao-bob/yamaxa/issues"
