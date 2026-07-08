@@ -2,33 +2,36 @@ from typing import Any, Optional
 from pydantic import BaseModel, Field, warnings, ConfigDict
 
 class User(BaseModel):
-    """Пользователь"""
+    """MAX user"""
 
     user_id: int
     first_name: str
     username: Optional[str] = None
-    is_bot: bool  # Исправлено: теперь это правильная аннотация типа
+    is_bot: bool  # is user a bot?
     last_name: Optional[str] = None
     last_activity_time: Optional[int] = None
     name: Optional[str] = Field(
         default=None,
-        json_schema_extra={"deprecated": True},  # Помечает поле как deprecated в схеме API
+        json_schema_extra={"deprecated": True},  # deprecated в API
     )
 
 
 class Update(BaseModel):
+    """Update from chat. This can be new message,
+    a user joined a group, button clicked or etc."""
     update_type: str
     timestamp: int
 
 
 class Recipient(BaseModel):
-    """Получатель сообщения"""
+    """Message recipient (получатель сообщения)"""
 
     chat_type: str
     chat_id: Optional[int] = None
     user_id: Optional[int] = None
 
 class Button(BaseModel):
+    """Inline keyboard button"""
     # Разрешаем принимать лишние поля
     model_config = ConfigDict(extra='allow')
 
@@ -36,7 +39,7 @@ class Button(BaseModel):
     text: str 
 
 class Keyboard(BaseModel):
-    """inline-клавиатура"""
+    """inline-keyboard"""
     buttons: list[Button]
 
 class Attachment(BaseModel):
@@ -47,6 +50,7 @@ class Attachment(BaseModel):
     payload: Any
 
 class MessageBody(BaseModel):
+    """body of message"""
     mid: str  # Уникальный ID сообщения
     seq: int  # ID последовательности сообщения в чате
     text: Optional[str] = None
@@ -62,7 +66,7 @@ class LinkedMessage(BaseModel):
 
 
 class Message(BaseModel):
-    """Сообщение в чате"""
+    """Message in chat (сообщение в чате)"""
 
     recipient: Recipient
     timestamp: int
@@ -74,16 +78,19 @@ class Message(BaseModel):
 
 
 class UMessage(Update):
+    """Update (new message)"""
     message: Message
     user_locale: Optional[str] = None
 
 class Callback(BaseModel):
+    """Callback from button"""
     timestamp: int
     callback_id: str
     payload: Optional[str] = None
     user: User # пользователь, нажавший кнопку
 
 class UCallback(Update):
+    """Update (new button callback)"""
     callback: Callback
 
 if __name__ == "__main__":

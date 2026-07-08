@@ -9,6 +9,15 @@ from .crtmngr import *
 
 class MaxBot:
     def __init__(self, token: str, auto_download_cert=False, cert_download_url="default", log=False):
+        """
+        Main object of your bot.
+
+        Args:
+            token (str): token from MAX Platform
+            auto_download_cert (bool, optional): download Certificate automatically?
+            cert_download_url (str, optional): URL for auto-download-cert, by default its github repo.
+            log (bool, optional): show logs?
+        """
         self.api_url = "https://platform-api2.max.ru/updates"
         self.token = token
         self.marker = None
@@ -23,23 +32,37 @@ class MaxBot:
 
     # Декораторы для регистрации функций-обработчиков (как @dp.message в aiogram)
     def on_update(self):
+        """Calls at every update"""
         def decorator(func):
             self._H_Update.append(func)
             return func
         return decorator
     def on_message(self):
+        """Calls, when new message received"""
         def decorator(func):
             self._H_Message.append(func)
             return func
         return decorator
     def on_callback(self):
+        """Calls, when new button callback received"""
         def decorator(func):
             self._H_Callback.append(func)
             return func
         return decorator
     
     async def send_message(self, text: str, attachments: list[Attachment] = [], user_id: int = None, chat_id: int = None):
-        """Отправить сообщение"""
+        """
+        Send a message. Use `user_id` OR `chat_id` (one of them)
+
+        Args:
+            text (str): text of message
+            attachments (list[Attachment], optional): attachments of message
+            user_id (int, optional): target user id
+            chat_id (int, optional): target chat id
+
+        Returns:
+            None
+        """
         headers = {
             "Authorization": self.token,
         }
@@ -73,6 +96,15 @@ class MaxBot:
 
     # Главный асинхронный цикл Long Polling
     async def start_polling(self, timeout: int = 30):
+        """
+        Start bot polling.
+
+        Args:
+            timeout: long-polling time
+
+        Returns:
+            None
+        """
         print("[yamaxa] Bot started...")
         
         # Используем один клиент для удержания HTTP-сессии
