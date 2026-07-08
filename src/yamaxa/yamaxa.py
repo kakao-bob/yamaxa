@@ -100,7 +100,7 @@ class MaxBot:
         Start bot polling.
 
         Args:
-            timeout: long-polling time
+            timeout (int, optional): long-polling time
 
         Returns:
             None
