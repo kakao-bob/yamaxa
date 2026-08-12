@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "yamaxa"
-version = "0.2.3"
+version = "0.2.4"
 description = "Yet another MAX Bots library."
 readme = "README.md"
 requires-python = ">=3.8"
