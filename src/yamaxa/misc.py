@@ -36,7 +36,7 @@ class Button(BaseModel):
     model_config = ConfigDict(extra='allow')
 
     type: str # [callback|message|..]
-    text: str 
+    text: str
 
 class Keyboard(BaseModel):
     """inline-keyboard"""
@@ -46,15 +46,15 @@ class Attachment(BaseModel):
     # Разрешаем принимать лишние поля
     model_config = ConfigDict(extra='allow')
 
-    type: str
-    payload: Any
+    type: Optional[str] = None # из-за типа location
+    payload: Optional[Any] = None
 
 class MessageBody(BaseModel):
     """body of message"""
     mid: str  # Уникальный ID сообщения
     seq: int  # ID последовательности сообщения в чате
-    text: Optional[str] = None
-    attachments: Optional[Attachment] = None
+    text: Optional[str] = ""
+    attachments: Optional[list[Attachment]] = None
     markup: Optional[Any] = None
 
 
@@ -79,7 +79,7 @@ class Message(BaseModel):
 
 class UMessage(Update):
     """Update (new message)"""
-    message: Message
+    message: Optional[Message] = None # изза типа Опрос
     user_locale: Optional[str] = None
 
 class Callback(BaseModel):
@@ -92,6 +92,3 @@ class Callback(BaseModel):
 class UCallback(Update):
     """Update (new button callback)"""
     callback: Callback
-
-if __name__ == "__main__":
-    print("hello world")
